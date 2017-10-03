@@ -27,7 +27,24 @@ public:
   /**
   * A helper method to calculate Jacobians.
   */
-  MatrixXd CalculateJacobian(const VectorXd& x_state);
+  static MatrixXd CalculateJacobian(const VectorXd& x_state);
+
+  /**
+  * A helper method to normalise angle within .-pi and +pi
+  */
+  static float NormaliseAngle(const float angle);
+
+
+  /**
+  * A helper method to convert cartesian measurement vector to polar
+  */
+  static int Cartesian2Polar(const VectorXd& cartesian, VectorXd& polar);
+
+
+  /**
+  * A helper method to convert polar measurement vector to cartesian
+  */
+  static int Polar2Cartesian(const VectorXd polar, VectorXd& cartesian);
 
 };
 
