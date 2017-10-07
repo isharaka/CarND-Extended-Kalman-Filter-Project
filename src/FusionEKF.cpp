@@ -38,9 +38,6 @@ FusionEKF::FusionEKF() {
   */
   H_laser_ << 1, 0, 0, 0,
         0, 1, 0, 0; 
-
-
-  measurment_index = 0;
 }
 
 /**
@@ -49,20 +46,12 @@ FusionEKF::FusionEKF() {
 FusionEKF::~FusionEKF() {}
 
 void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
-  cout << "ProcessMeasurement: " << measurment_index++ 
-        << " " << measurement_pack.sensor_type_ 
-        << " " << measurement_pack.timestamp_ 
-        << " " << measurement_pack.raw_measurements_.transpose() << endl;
-
-  //if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR)
-  //  return;
 
   /*****************************************************************************
    *  Initialization
    ****************************************************************************/
   if (!is_initialized_) {
     /**
-    TODO:
       * Initialize the state ekf_.x_ with the first measurement.
       * Create the covariance matrix.
       * Remember: you'll need to convert radar from polar to cartesian coordinates.
@@ -83,6 +72,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
     }
 
+    previous_timestamp_ = measurement_pack.timestamp_;
+
     // done initializing, no need to predict or update
     is_initialized_ = true;
     return;
@@ -100,7 +91,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    ****************************************************************************/
 
   /**
-   TODO:
      * Update the state transition matrix F according to the new elapsed time.
       - Time is measured in seconds.
      * Update the process noise covariance matrix.
@@ -124,7 +114,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    ****************************************************************************/
 
   /**
-   TODO:
      * Use the sensor type to perform the update step.
      * Update the state and covariance matrices.
    */
